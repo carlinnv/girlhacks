@@ -35,8 +35,7 @@ with app.app_context():
 #App routing
 @app.route("/")
 def main(): 
-    
-    return "<p>test main</p>"
+    return render_template("index.html")
 
 
 @app.route("/discussion", methods=['GET', 'POST'])
