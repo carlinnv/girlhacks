@@ -30,10 +30,6 @@ class Post(db.Model):
 
 with app.app_context(): 
     db.create_all()
-    # db.session.add(Post('Test', 'caption'))
-
-    # posts = Post.query.all()
-    # print(posts) 
 
 
 #App routing
@@ -49,8 +45,9 @@ def discussion():
         title = request.form.get("title")
         caption = request.form.get("caption")
         db.session.add(Post(title, caption)) #create new post in Post database
+        db.session.commit()
         posts = Post.query.all()
-        print(posts)         
+        print(posts)
         return "Your title is " + title + " and your caption is " + caption + "."
     return render_template("discussion.html")
         
