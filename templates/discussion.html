@@ -1,0 +1,55 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FlaskApp</title>
+</head>
+<body>
+    <h1>Hello World!</h1>
+    <h2>Welcome to FlaskApp!</h2>
+    <input type="button" value="Click me">
+
+    <form action = "/setcookie" method = "POST"> 
+        <p><h3>Enter form title</h3></p> 
+        <p><input type = 'text' name = 'nm'/></p> 
+        <p><input type = 'submit' value = 'Login'/></p> 
+    </form> 
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+
+<html lang="en"></html>
+<head>
+    <meta charset="UTF-8">
+    <title>FlaskApp</title>
+</head>
+<body>
+    <h1 style="width: 100%">Submit a post</h1>
+    <form action="/discussion" method="post">
+
+        <p>
+            <label for="title">First Name</label>
+            <input type="text" name="title"
+                   placeholder="Title">
+            </input>
+        </p>
+
+        <p>
+            <label for="caption">Last Name</label>
+            <input type="text" name="caption"
+                   placeholder="Caption">
+            </input>
+        </p>
+
+        <p>
+            <button type="submit">Submit</button>
+        </p>
+
+        {% for post in allPosts %}
+        <p>{{post}}</p>
+        {% endfor %}
+    </form>
+</body>
+</html>
