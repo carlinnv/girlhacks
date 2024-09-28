@@ -41,6 +41,7 @@ def main():
 
 @app.route("/discussion", methods=['GET', 'POST'])
 def discussion(): 
+    posts = Post.query.all()
     if request.method == 'POST': 
         title = request.form.get("title")
         caption = request.form.get("caption")
@@ -48,8 +49,8 @@ def discussion():
         db.session.commit()
         posts = Post.query.all()
         print(posts)
-        return "Your title is " + title + " and your caption is " + caption + "."
-    return render_template("discussion.html")
+        return render_template("discussion.html", allPosts = posts, testVar = "Test!!")
+    return render_template("discussion.html", allPosts = posts, testVar = "Test!!")
         
 
 
@@ -68,4 +69,8 @@ def testing():
     return "Can Forum see this..."
 
 if __name__ == "__main__":
+    app.jinja_env.auto_reload = True
+    app.config['TEMPLATES_AUTO_RELOAD'] = True
+    debug = True
     app.run()
+    
