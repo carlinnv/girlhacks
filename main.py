@@ -1,9 +1,9 @@
-from flask import Flask
-app = Flask(__name__)
+from flask import Flask, render_template, request, redirect, url_for, flash
 
+app = Flask(__name__)
 @app.route("/")
 def main(): 
-    return "<p>test main</p>"
+    return render_template("index.html")
 
 
 @app.route("/discussion")
@@ -17,4 +17,10 @@ def events():
 @app.route("/about")
 def about(): 
     return "About page" 
-    
+def create_app():
+    return app
+
+
+
+
+
