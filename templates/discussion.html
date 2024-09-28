@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,5 +14,34 @@
         <p><input type = 'text' name = 'nm'/></p> 
         <p><input type = 'submit' value = 'Login'/></p> 
     </form> 
+</body>
+</html> -->
+
+<html lang="en"></html>
+<head>
+    <meta charset="UTF-8">
+    <title>FlaskApp</title>
+</head>
+<body>
+    <h1 style="width: 100%">Add a New Student</h1>
+    <form action="/discussion" method="post">
+        <p>
+            <label for="title">First Name</label>
+            <input type="text" name="title"
+                   placeholder="Title">
+            </input>
+        </p>
+
+        <p>
+            <label for="caption">Last Name</label>
+            <input type="text" name="caption"
+                   placeholder="Caption">
+            </input>
+        </p>
+
+        <p>
+            <button type="submit">Submit</button>
+        </p>
+    </form>
 </body>
 </html>

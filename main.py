@@ -30,10 +30,10 @@ class Post(db.Model):
 
 with app.app_context(): 
     db.create_all()
-    db.session.add(Post('Test', 'caption'))
+    # db.session.add(Post('Test', 'caption'))
 
-    posts = Post.query.all()
-    print(posts) 
+    # posts = Post.query.all()
+    # print(posts) 
 
 
 #App routing
@@ -43,10 +43,16 @@ def main():
     return "<p>test main</p>"
 
 
-@app.route("/discussion", methods=['GET'])
+@app.route("/discussion", methods=['GET', 'POST'])
 def discussion(): 
-    if request.method == 'GET': 
-        return render_template("discussion.html")
+    if request.method == 'POST': 
+        title = request.form.get("title")
+        caption = request.form.get("caption")
+        db.session.add(Post(title, caption)) #create new post in Post database
+        posts = Post.query.all()
+        print(posts)         
+        return "Your title is " + title + " and your caption is " + caption + "."
+    return render_template("discussion.html")
         
 
 
