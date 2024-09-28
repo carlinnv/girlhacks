@@ -17,4 +17,9 @@ def events():
 @app.route("/about")
 def about(): 
     return "About page" 
-    
+
+
+
+@app.route("/testing")
+def testing(): 
+    return "Can Forum see this..."
