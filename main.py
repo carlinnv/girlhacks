@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Integer, String
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column 
+from flask_login import UserMixin, logout_user, LoginManager, login_user, login_required, current_user
 
 ##database setup
 class Base(DeclarativeBase):
@@ -15,6 +16,12 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///project.db"
 app.config['SECRET_KEY'] = 'super-secret-key'
 
 db.init_app(app)
+
+#setup login manager stuff
+login_manager= LoginManager()
+login_manager.login_view='main'
+login_manager.init_app(app)
+
 
 
 ##create database for discussion posts
@@ -66,7 +73,7 @@ class SignUp(db.Model):
 
     
 
-class User(db.Model): 
+class User(UserMixin, db.Model): 
     id = db.Column(db.Integer, primary_key=True)
     username=db.Column(db.String, unique=True)
     password=db.Column(db.String, nullable=False)
@@ -77,6 +84,12 @@ class User(db.Model):
 
     def __repr__(self):
         return f'Username: {self.username}'
+    
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
 
 
 with app.app_context(): 
@@ -97,6 +110,8 @@ def main():
             flash("Try again dummy")
             print("wrong")
             return redirect(url_for('main'))
+        
+        login_user(user)
         return redirect(url_for('discussion'))
 
     return render_template('index.html')
@@ -114,7 +129,7 @@ def signup():
             flash("Email address already exists, try again")
             #return redirect(url_for('signup')) #return to signup page if user already exists
         else: 
-            new_user = User(username=username, password=password)
+            new_user = User(username, password)
             db.session.add(new_user)
             db.session.commit()
 
@@ -125,11 +140,14 @@ def signup():
 
 
 @app.route('/logout')
+@login_required
 def logout(): 
-    return 'Logout'
+    logout_user()
+    return redirect(url_for('main'))
 
 
 @app.route("/discussion", methods=['GET', 'POST'])
+@login_required
 def discussion(): 
     posts = Post.query.all()
     if request.method == 'POST': 
@@ -144,6 +162,7 @@ def discussion():
         
 
 @app.route("/events", methods=['GET', 'POST'])
+@login_required
 def events(): 
     all_events = Event.query.all()
     if request.method == 'POST': 
@@ -165,6 +184,7 @@ def events():
     return render_template("events.html", allEvents=all_events, testVar="Test!!")
 
 @app.route('/volunteer/<event_title>', methods=['GET'])
+@login_required
 def volunteer(event_title):
     print(f"Requested signup for event: {event_title}")  # Debugging line
     event = Event.query.filter_by(title=event_title).first()  # Fetch the specific event by title
@@ -174,6 +194,7 @@ def volunteer(event_title):
     return redirect(url_for('events'))  # Redirect if event not found
 
 @app.route('/submit_signup', methods=['POST'])
+@login_required
 def submit_signup():
     username = request.form.get('username')
     password = request.form.get('password')  # In production, hash this password
@@ -190,11 +211,14 @@ def submit_signup():
 
 
 @app.route("/about")
+@login_required
 def about(): 
-    return "About page" 
+    return current_user.name 
+
 
 
 @app.route("/testing")
+@login_required
 def testing(): 
     return "Can Forum see this..."
 
