@@ -113,7 +113,7 @@
     </form>
 
     <div class="posts-container">
-        {% for post in allPosts %}
+        {% for post in allPosts|reverse %}
         <div class="post-block">
             <div class="post-title">{{ post.title }}</div>
             <div class="post-caption">{{ post.caption }}</div>

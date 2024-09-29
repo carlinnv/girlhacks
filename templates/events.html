@@ -4,6 +4,96 @@
     <meta charset="UTF-8">
     <title>FlaskApp</title>
     <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #000000;
+            color: #070707;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            margin: 15px 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="url"],
+        select {
+            width: 100%;
+            margin-right: 5px;
+            height: 50px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        button {
+            background: linear-gradient(45deg, #979496, #6d066d, #a666ff);
+            animation: disco 5s infinite;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, #979496, #6d066d, #a666ff);
+            animation: disco 5s infinite;
+        }
+
+        .events-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .event-block {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 15px;
+            flex: 1 1 calc(33.333% - 20px); /* Adjusts width for 3 blocks per row */
+            box-sizing: border-box;
+        }
+
+        .event-title {
+            font-size: 1.2rem;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .event-description {
+            font-size: 1rem;
+            color: #666;
+        }
+
         /* Hide the custom input by default */
         #other-input {
             display: none;
@@ -23,6 +113,7 @@
     </script>
 </head>
 <body>
+
     <h1>Submit a Post</h1>
     <form action="/events" method="post">
         <p>
@@ -60,18 +151,21 @@
     </form>
 
     <h2>All Events</h2>
-    {% for event in allEvents %}
-    <p>
-        <strong>{{ event.title }}</strong> - {{ event.kind }} <br>
-        {{ event.description }} <br>
-        <a href="{{ event.link }}" target="_blank">Event Link</a> <br>
-        {% if event.kind == 'Volunteer' or event.kind != "Community" %}
-            <a href="/signup/{{ loop.index0 }}">Sign Up</a>
-            <a href="/attendance/{{ loop.index0 }}">View Attendance</a>
-        {% else %}
-            <a href="/attendance/{{ loop.index0 }}">View Attendance</a>
-        {% endif %}
-    </p>
-    {% endfor %}
+    <div class="events-container">
+        {% for event in allEvents|reverse %}
+        <div class="event-block">
+            <div class="event-title">{{ event.title }} - {{ event.kind }}</div>
+            <div class="event-description">{{ event.description }}</div>
+            <a href="{{ event.link }}" target="_blank">Event Link</a><br>
+            {% if event.kind == 'Volunteer' or event.kind != "Community" %}
+                <a href="/signup/{{ loop.index0 }}">Sign Up</a>
+                <a href="/attendance/{{ loop.index0 }}">View Attendance</a>
+            {% else %}
+                <a href="/attendance/{{ loop.index0 }}">View Attendance</a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
 </body>
 </html>
