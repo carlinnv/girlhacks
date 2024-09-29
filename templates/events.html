@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FlaskApp</title>
+    <style>
+        #other-input {
+            display: none;
+        }
+    </style>
+    <script>
+        function toggleOtherInput() {
+            const select = document.getElementById('kind');
+            const otherInput = document.getElementById('other-input');
+            if (select.value === 'Other') {
+                otherInput.style.display = 'block';
+            } else {
+                otherInput.style.display = 'none';
+                otherInput.value = '';
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Submit a Post</h1>
+    <form action="/events" method="post">
+        <p>
+            <label for="title">Event Name:</label>
+            <input type="text" id="title" name="title" placeholder="Title" required>
+        </p>
+        <p>
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" placeholder="Description" required>
+        </p>
+        <p>
+            <label for="link">Link:</label>
+            <input type="url" id="link" name="link" placeholder="Link" required>
+        </p>
+        <p>
+            <label for="kind">Event Type:</label>
+            <select id="kind" name="kind" onchange="toggleOtherInput()" required>
+                <option value="Volunteer">Volunteer</option>
+                <option value="Community">Community</option>
+                <option value="Other">Other</option>
+            </select>
+        </p>
+        <p id="other-input">
+            <label for="other">Please specify:</label>
+            <input type="text" id="other" name="other" placeholder="Specify other type">
+        </p>
+        <p>
+            <button type="submit">Submit</button>
+        </p>
+    </form>
+
+    <h2>All Events</h2>
+    {% for event in allEvents %}
+    <p>
+        <strong>{{ event.title }}</strong> - {{ event.kind }} <br>
+        {{ event.description }} <br>
+        <a href="{{ event.link }}" target="_blank">Event Link</a> <br>
+        {% if event.kind == 'Volunteer' or event.kind != "Community" %}
+            <a href="/volunteer/{{ event.title|urlencode }}">Sign Up</a>  
+        {% endif %}
+    </p>
+    {% endfor %}
+</body>
+</html>
