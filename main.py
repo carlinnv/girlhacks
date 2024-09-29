@@ -23,7 +23,6 @@ login_manager.login_view='main'
 login_manager.init_app(app)
 
 
-
 ##create database for discussion posts
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -148,7 +147,6 @@ def signup():
 
         return redirect(url_for('main'))     
 
-
     return render_template('signup.html')
 
 
@@ -196,6 +194,7 @@ def events():
         return render_template("events.html", allEvents=all_events, testVar="Test!!")
     return render_template("events.html", allEvents=all_events, testVar="Test!!")
 
+
 @app.route('/volunteer/<event_title>', methods=['GET'])
 @login_required
 def volunteer(event_title):
@@ -205,6 +204,7 @@ def volunteer(event_title):
         return render_template('volunteer.html', event_title=event.title, event_id=event.id)
     print("Event not found.")  # Debugging line
     return redirect(url_for('events'))  # Redirect if event not found
+
 
 @app.route('/submit_signup', methods=['POST'])
 @login_required
@@ -232,12 +232,10 @@ def reply(post_id):
     return redirect(url_for('discussion')) 
 
 
-
 @app.route("/about")
 @login_required
 def about(): 
     return current_user.name 
-
 
 
 @app.route("/testing")
