@@ -119,7 +119,7 @@ def main():
         user = User.query.filter_by(username=username).first() #check if user exists
 
         if not user or not (user.password==password):
-            flash("Try again dummy")
+            flash("Try again!")
             print("wrong")
             return redirect(url_for('main'))
         
@@ -229,13 +229,13 @@ def reply(post_id):
     new_reply = Reply(post_id=post_id, content=reply_content)
     db.session.add(new_reply)
     db.session.commit()
-    return redirect(url_for('discussion')) 
+    return redirect(url_for('discussion'))  
 
 
 @app.route("/about")
 @login_required
 def about(): 
-    return current_user.name 
+    return render_template("aboutUs.html") 
 
 
 @app.route("/testing")
@@ -250,5 +250,3 @@ if __name__ == "__main__":
     debug = True
     app.run()
     
-
-

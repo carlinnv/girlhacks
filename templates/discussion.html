@@ -5,7 +5,7 @@
     <title>FlaskApp</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Calibri';
             background-color: #000000;
             color: #070707;
             margin: 0;
@@ -39,7 +39,6 @@
 
         input[type="text"], textarea {
             width: 100%;
-            margin-right: 5px;
             height: 50px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -79,6 +78,17 @@
             margin: 10px;
             padding: 15px;
             border: 1px solid #ccc;
+            display: flex; /* Use Flexbox for layout */
+            justify-content: space-between; /* Space between left and right */
+        }
+
+        .post-content {
+            flex: 0.75; /* Take up available space */
+            padding-right: 20px; /* Add some spacing */
+        }
+
+        .reply-section {
+            min-width: 500px; /* Set a minimum width for replies */
         }
 
         .post-title {
@@ -91,15 +101,14 @@
             font-size: 1rem;
             color: #666;
         }
-
-        .reply-section {
-            margin-top: 10px;
-        }
     </style>
 </head>
 <body>
-
-    <a href = "{{ url_for('logout')}}">logout temp</a>
+    {% include 'navigation.html' %}
+    <div class="content">
+        <!-- Page-specific content goes here -->
+        {% block content %}{% endblock %}
+    </div>
     <h1>Submit a Post</h1>
     <form action="/discussion" method="post">
         <p>
@@ -121,20 +130,21 @@
         <h2>All Posts</h2>
         {% if allPosts %}
             <ul>
-                {% for post in allPosts %}
+                {% for post in allPosts|reverse %}
                     <li class="post-block">
-                        <div class="post-title">{{ post.title }}</div>
-                        <div class="post-caption">{{ post.caption }}</div>
+                        <div class="post-content">
+                            <div class="post-title">{{ post.title }}</div>
+                            <div class="post-caption">{{ post.caption }}</div>
+                        </div>
 
                         <div class="reply-section">
                             <form action="/reply/{{ post.id }}" method="post">
                                 <textarea name="reply" placeholder="Write a reply..." required></textarea>
                                 <button type="submit">Reply</button>
                             </form>
-
                             <!-- Display Replies -->
                             <ul>
-                                {% for reply in post.replies %}
+                                {% for reply in post.replies|reverse %}
                                     <li>{{ reply.content }}</li>
                                 {% endfor %}
                             </ul>

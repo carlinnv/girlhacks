@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign up page</title>
 </head>
-<body style="font-family: 'Arial', sans-serif; background-color: rgb(0, 0, 0); color: rgb(0, 0, 0); text-align: center; margin: 0; padding: 0; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden;">
-
+<body style="font-family: 'Calibri', sans-serif; background-color: rgb(0, 0, 0); color: rgb(0, 0, 0); text-align: center; margin: 0; padding: 0; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden;">
+    
     <div style="background: linear-gradient(45deg, #979496, #6d066d, #a666ff, #FFD700); background-size: 400% 400%; animation: disco 5s infinite; padding: 30px; border-radius: 15px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);">
         <div style="width: 100px; height: 100px; background: radial-gradient(circle, #ffffff, #cccccc); border-radius: 50%; margin: 0 auto 30px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); animation: spin 3s infinite linear;"></div>
         <h1 style="font-size: 3rem; margin-bottom: 20px;">Sign up</h1>
@@ -18,7 +18,9 @@
             <input type="password" id="password" name="password" value="{{request.form.password}}" required style="width: 80%; padding: 10px; margin-bottom: 15px; border: none; border-radius: 5px; box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); font-size: 1.2rem;">
             
             <input type="submit" value="Login" style="background-color: #baebf0; border: none; padding: 15px 30px; border-radius: 30px; box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); font-size: 1.2rem; cursor: pointer; transition: all 0.3s ease;"></button>
-
+            <br>
+            <br>
+            <a href="{{url_for(('main'))}}" style="color:white">Already Have an Account? Log in!</a>
         </form>
         {% if error %}
         <p class="error"><strong>Error:</strong> {{ error }}
