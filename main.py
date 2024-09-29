@@ -87,7 +87,6 @@ with app.app_context():
 @app.route("/", methods=['GET', 'POST'])
 def main(): 
     error = None
-    get_flashed_messages()
     if request.method== 'POST': 
 
         username=request.form.get('username')
