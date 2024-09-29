@@ -2,16 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    {% include 'navigation.html' %}  <!-- Include the navigation bar -->
+
+    <div class="content">
+        <!-- Page-specific content goes here -->
+        {% block content %}{% endblock %}
     <title>FlaskApp</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Calibri';
             margin: 0;
             padding: 20px;
-            background-color: #f4f4f4;
+            background-color: #000000;
         }
         h1, h2 {
-            color: #333;
+                background: black; 
+                text-align: center;
+                font-size: 25px;
+                color: #ffffff;
+                margin-bottom: 20px;
         }
         form {
             background: white;
@@ -37,7 +46,7 @@
         }
         button {
             padding: 10px;
-            background: #007BFF;
+            background: #6d066d;
             color: white;
             border: none;
             border-radius: 4px;
@@ -45,7 +54,7 @@
             width: 100%;
         }
         button:hover {
-            background: #0056b3;
+            background:  #6d066d;
         }
         #event-cards {
             display: grid;
@@ -78,6 +87,8 @@
     </script>
 </head>
 <body>
+    
+    </div>
     <h1>Submit an Event Post</h1>
     <form action="/events" method="post">
         <p>
@@ -111,7 +122,7 @@
 
     <h2>All Events</h2>
     <div id="event-cards">
-        {% for event in allEvents %}
+        {% for event in allEvents|reverse%}
         <div class="card">
             <h3>{{ event.title }}</h3>
             <p><strong>Type:</strong> {{ event.kind }}</p>

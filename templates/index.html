@@ -5,25 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Disco-Themed Sign In</title>
 </head>
-<body style="font-family: 'Arial', sans-serif; background-color: rgb(0, 0, 0); color: rgb(0, 0, 0); text-align: center; margin: 0; padding: 0; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden;">
+<body style="font-family: 'Calibri', sans-serif; background-color: rgb(0, 0, 0); color: rgb(0, 0, 0); text-align: center; margin: 0; padding: 0; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden;">
 
     <div style="background: linear-gradient(45deg, #979496, #6d066d, #a666ff, #FFD700); background-size: 400% 400%; animation: disco 5s infinite; padding: 30px; border-radius: 15px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);">
         <div style="width: 100px; height: 100px; background: radial-gradient(circle, #ffffff, #cccccc); border-radius: 50%; margin: 0 auto 30px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); animation: spin 3s infinite linear;"></div>
         <h1 style="font-size: 3rem; margin-bottom: 20px;">Sign In</h1>
-        <form id="sign-in-form" action="" method="post">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
+
+        <form id="sign-in-form" action="/" method="post">
             <label for="username" style="display: block; margin: 10px 0 5px;">Username:</label>
             <input type="username" id="username" name="username" value="{{request.form.username}}" required style="width: 80%; padding: 10px; margin-bottom: 15px; border: none; border-radius: 5px; box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); font-size: 1.2rem;">
             
             <label for="password" style="display: block; margin: 10px 0 5px;">Password:</label>
             <input type="password" id="password" name="password" value="{{request.form.password}}" required style="width: 80%; padding: 10px; margin-bottom: 15px; border: none; border-radius: 5px; box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); font-size: 1.2rem;">
             
-            <!-- <div class="remember-me" style="margin: 20px 0;">
-                <input type="checkbox" id="remember-me" name="remember-me">
-                <label for="remember-me">Remember Me</label>
-            </div> -->
+            
+            
             
             <input type="submit" value="Login" style="background-color: #baebf0; border: none; padding: 15px 30px; border-radius: 30px; box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); font-size: 1.2rem; cursor: pointer; transition: all 0.3s ease;"></button>
-
+            <br>
+            <br>
+            <a href="{{url_for(('signup'))}}" style="color:white">Create new account</a>
         </form>
         {% if error %}
         <p class="error"><strong>Error:</strong> {{ error }}
@@ -31,10 +39,9 @@
     </div>
 
     <script>
-        // document.getElementById('sign-in-form').addEventListener('submit', function(event) {
-        //     event.preventDefault(); // Prevent form submission for demo purposes
-        //     alert('Sign In button clicked!');
-        // });
+        document.getElementById('sign-in-form').addEventListener('submit', function(event) {
+            
+        });
 
         // Add keyframes for disco animation
         const styleSheet = document.createElement("style");
@@ -54,31 +61,5 @@
     </script>
 
 </body>
-</html> 
+</html>
 
-
-<!-- 
-
-<html>
-  <head>
-    <title>Flask Intro - login page</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
-  </head>
-  <body>
-    <div class="container">
-      <h1>Please login</h1>
-      <br>
-      <form action="" method="post">
-        <input type="text" placeholder="Username" name="username" value="{{
-          request.form.username }}">
-         <input type="password" placeholder="Password" name="password" value="{{
-          request.form.password }}">
-        <input class="btn btn-default" type="submit" value="Login">
-      </form>
-      {% if error %}
-        <p class="error"><strong>Error:</strong> {{ error }}
-      {% endif %}
-    </div>
-  </body>
-</html> -->

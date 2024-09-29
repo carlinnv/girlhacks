@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>About Us</title>
+        <title>About Us</title>        
         <style>
             body {
                 font-family: "Calibri", Times, serif;
@@ -67,10 +67,16 @@
         </style>
     </head>
     <body>
+        {% include 'navigation.html' %}  <!-- Include the navigation bar -->
+
+        <div class="content">
+            <!-- Page-specific content goes here -->
+            {% block content %}{% endblock %}
+        </div>
         <header>
             <h1>About Us</h1>
         </header>
-
+        
         <section id="organization">
             <h1>Our Organization</h1>
             <p>Welcome to Newark Connect! Our mission is to bridge the gap within the Newark community through an innovative 
