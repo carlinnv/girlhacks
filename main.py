@@ -183,6 +183,7 @@ def submit_signup():
     # Create a new sign-up entry
     signup = SignUp(username=username, password=password, event_id=event_id)
     
+    
     db.session.add(signup)
     db.session.commit()
 
