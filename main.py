@@ -27,6 +27,23 @@ class Post(db.Model):
     def __repr__(self):
         return f'<Post title: {self.title}>'
     
+class Event(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=False)
+    description = db.Column(db.String)
+    author = db.Column(db.String)
+    link = db.Column(db.String)
+    kind = db.Column(db.String)
+
+    def __init__(self, title, description, author, link, kind):
+        self.title = title
+        self.description = description
+        self.author = author
+        self.link = link
+        self.kind = kind
+
+    def __repr__(self):
+        return f'<Post title: {self.title}>'
 
 with app.app_context(): 
     db.create_all()
@@ -53,9 +70,20 @@ def discussion():
         
 
 
-@app.route("/events")
+@app.route("/events", methods=['GET', 'POST'])
 def events(): 
-    return "Events page"
+    events = Event.query.all()
+    if request.method == 'POST': 
+        title = request.form.get("title")
+        description = request.form.get("description")
+        link = request.form.get("link")
+        kind = request.form.get("kind")
+        db.session.add(Event(title, description, link, kind)) #create new post in events database
+        db.session.commit()
+        events = Event.query.all()
+        print(events)
+        return render_template("events.html", allEvents = events, testVar = "Test!!")
+    return render_template("events.html", allEvents= events, testVar = "Test!!")
 
 @app.route("/about")
 def about(): 
