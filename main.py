@@ -70,6 +70,19 @@ class SignUp(db.Model):
 
     def __repr__(self):
         return f'<SignUp {self.username} for Event ID: {self.event_id}>'
+    
+
+class Reply(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
+    content = db.Column(db.String, nullable=False)
+
+    post = db.relationship('Post', backref='replies')
+
+    def __init__(self, post_id, content):
+        self.post_id = post_id
+        self.content = content
+
 
     
 
@@ -208,6 +221,16 @@ def submit_signup():
 
     # Redirect to a success page or back to events
     return redirect(url_for('events'))  # You can change this to a success page if needed
+
+
+@app.route('/reply/<int:post_id>', methods=['POST'])
+def reply(post_id):
+    reply_content = request.form.get('reply')
+    new_reply = Reply(post_id=post_id, content=reply_content)
+    db.session.add(new_reply)
+    db.session.commit()
+    return redirect(url_for('discussion')) 
+
 
 
 @app.route("/about")

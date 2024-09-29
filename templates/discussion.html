@@ -37,13 +37,17 @@
             font-weight: bold;
         }
 
-        input[type="text"] {
+        input[type="text"], textarea {
             width: 100%;
             margin-right: 5px;
             height: 50px;
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 1rem;
+        }
+
+        textarea {
+            height: 80px; /* Adjust for replies */
         }
 
         button {
@@ -64,9 +68,6 @@
         }
 
         .posts-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -77,8 +78,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin: 10px;
             padding: 15px;
-            flex: 1 1 calc(33.333% - 20px); /* Adjusts width for 3 blocks per row */
-            box-sizing: border-box; /* Ensures padding and margin are included in width */
+            border: 1px solid #ccc;
         }
 
         .post-title {
@@ -91,10 +91,15 @@
             font-size: 1rem;
             color: #666;
         }
+
+        .reply-section {
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
-    <a href="{{ url_for('logout')}}">Logout</a>
+
+    <a href = "{{ url_for('logout')}}">logout temp</a>
     <h1>Submit a Post</h1>
     <form action="/discussion" method="post">
         <p>
@@ -104,7 +109,7 @@
 
         <p>
             <label for="caption">Caption</label>
-            <input type="text" name="caption" placeholder="Caption" required>
+            <textarea name="caption" placeholder="Write your post..." required></textarea>
         </p>
 
         <p>
@@ -113,12 +118,33 @@
     </form>
 
     <div class="posts-container">
-        {% for post in allPosts|reverse %}
-        <div class="post-block">
-            <div class="post-title">{{ post.title }}</div>
-            <div class="post-caption">{{ post.caption }}</div>
-        </div>
-        {% endfor %}
+        <h2>All Posts</h2>
+        {% if allPosts %}
+            <ul>
+                {% for post in allPosts %}
+                    <li class="post-block">
+                        <div class="post-title">{{ post.title }}</div>
+                        <div class="post-caption">{{ post.caption }}</div>
+
+                        <div class="reply-section">
+                            <form action="/reply/{{ post.id }}" method="post">
+                                <textarea name="reply" placeholder="Write a reply..." required></textarea>
+                                <button type="submit">Reply</button>
+                            </form>
+
+                            <!-- Display Replies -->
+                            <ul>
+                                {% for reply in post.replies %}
+                                    <li>{{ reply.content }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No posts available.</p>
+        {% endif %}
     </div>
 
 </body>
