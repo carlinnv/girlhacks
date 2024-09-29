@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Volunteer Sign-Up</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Sign Up to Volunteer for "{{ event_title }}"</h1>
+<form action="{{ url_for('submit_signup') }}" method="post">
+    <p>
+        <label for="username">Username:</label>
+        <input type="text" id="user" name="username" required>
+    </p>
+    
+    <p>
+        <label for="password">Password:</label>
+        <input type="password" id="pass" name="password" required>
+    </p>
+
+    <input type="hidden" name="event_id" value="{{ event_id }}">
+
+    <p>
+        <button type="submit">Sign Up</button>
+    </p>
+</form>
+
+
+<a href="/events">Back to Events</a>
+
+</body>
+</html>
